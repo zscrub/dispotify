@@ -1,5 +1,6 @@
 import tkn
 import discord
+import dispotify
 
 TOKEN = tkn.tkn
 
@@ -15,7 +16,11 @@ async def on_message(message):
         embed_.add_field(name='Fleetwood Mac', value='Hypnotized', inline=False)
         await message.channel.send(embed=embed_)
 
-
+    if message.content.startswith('!theWeeknd'):
+        embed_ = discord.Embed(title = 'Albums from The Weeknd', color=EF0622)
+        for albumName in dispotify.wkndAlbums:
+            embed_.add_field(name=albumName)
+        await message.channel.send(embed=embed_)
 
 @client.event
 async def on_ready():
