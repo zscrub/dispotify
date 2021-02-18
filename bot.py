@@ -11,8 +11,9 @@ async def on_message(message):
         return
 
     if message.content.startswith('!hello'):
-        msg = 'Hello {0.author.mention}'.format(message)
-        await message.channel.send(msg)
+        embed_ = discord.Embed(title = 'Here\'s some tracks for you {0.author.mention} ... '.format(message), color=0xA750DE)
+        embed_.add_field(name='Fleetwood Mac', value='Hypnotized', inline=False)
+        await message.channel.send(embed=embed_)
 
 
 
