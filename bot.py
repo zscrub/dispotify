@@ -17,9 +17,9 @@ async def on_message(message):
         await message.channel.send(embed=embed_)
 
     if message.content.startswith('!theWeeknd'):
-        embed_ = discord.Embed(title = 'Albums from The Weeknd', color=EF0622)
+        embed_ = discord.Embed(title = 'Albums from The Weeknd', color=0xA750DE)
         for albumName in dispotify.wkndAlbums:
-            embed_.add_field(name=albumName)
+            embed_.add_field(name=dispotify.wkndAlbums.index(albumName), value=albumName)
         await message.channel.send(embed=embed_)
 
 @client.event
