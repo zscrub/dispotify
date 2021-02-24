@@ -18,8 +18,16 @@ async def on_message(message):
 
     if message.content.startswith('!theWeeknd'):
         embed_ = discord.Embed(title = 'Albums from The Weeknd', color=0xA750DE)
-        for albumName in dispotify.wkndAlbums:
-            embed_.add_field(name=dispotify.wkndAlbums.index(albumName), value=albumName)
+        for albumName in dispotify.theWeekndAlbums():
+            # await message.channel.send(albumName)
+            embed_.add_field(name=dispotify.theWeekndAlbums().index(albumName)+1, value=albumName)
+        await message.channel.send(embed=embed_)
+
+    if message.content.startswith('!searchf'):
+        embed_ = discord.Embed(title = 'Search for Radiohead')
+        for r in dispotify.searchTest():
+            embed_.add_field(name='Radiohead?', value=r)  
+        
         await message.channel.send(embed=embed_)
 
 @client.event
