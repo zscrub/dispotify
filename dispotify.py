@@ -22,13 +22,26 @@ def theWeekndAlbums():
         wkndAlbums.append(album['name'])
     return wkndAlbums
 
-def searchTest():
+def searchTest(artist):
     if len(sys.argv) > 1:
         search_str = sys.argv[1]
     else:
-        search_str = 'Radiohead'
+        search_str = artist
 
     result = spotify_.search(search_str)
-    pprint.pprint(result)
-    return result
+    # pprint.pprint(result)
+    tracks_ = result['tracks']
+    # pprint.pprint(tracks_)
+    items_ = tracks_['items']
 
+    return items_
+
+# for key in searchTest():
+#     print(key)
+
+# for key in searchTest():
+#     print(key)
+
+
+for i in range(len(searchTest('young thug'))):
+    print('\n{0}'.format((searchTest('young thug')[i]['name'])))
