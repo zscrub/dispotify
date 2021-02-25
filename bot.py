@@ -24,7 +24,7 @@ async def on_message(message):
         await message.channel.send(embed=embed_)
 
     if message.content.startswith('!searchtop') or message.content.startswith('!SearchTop') or message.content.startswith('!searchTop'):
-        artist = str(message.content)[8:]
+        artist = str(message.content)[10:]
         if len(artist) != 0 and artist != ' ':    
             embed_ = discord.Embed(title = 'Top track results for {0}'.format(artist))
             for i in range(len(dispotify.searchTest(artist))):
