@@ -23,7 +23,7 @@ async def on_message(message):
             embed_.add_field(name=dispotify.theWeekndAlbums().index(albumName)+1, value=albumName)
         await message.channel.send(embed=embed_)
 
-    if message.content.startswith('!searchf'):
+    if message.content.startswith('!searchtop') or message.content.startswith('!SearchTop') or message.content.startswith('!searchTop'):
         artist = str(message.content)[8:]
         if len(artist) != 0 and artist != ' ':    
             embed_ = discord.Embed(title = 'Top track results for {0}'.format(artist))
