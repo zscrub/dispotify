@@ -27,12 +27,15 @@ async def on_message(message):
         artist = str(message.content)[10:]
         if len(artist) != 0 and artist != ' ':    
             embed_ = discord.Embed(title = 'Top track results for {0}'.format(artist))
-            for i in range(len(dispotify.searchTest(artist))):
-                embed_.add_field(name='Track #{0}'.format(i+1), value=dispotify.searchTest(artist)[i]['name'])  
+            print(len(dispotify.searchTest(artist)[1]))
+            for i in range(len(dispotify.searchTest(artist)[1])):
+                embed_.add_field(name='Track #{0}'.format(i+1), value=dispotify.searchTest(artist)[1][i])  
             
             await message.channel.send(embed=embed_)
         else:
             await message.channel.send('Name an artist after the command to retrieve top tracks! For example:\n ```!searchf Nirvana``` ')
+
+
 
 @client.event
 async def on_ready():
