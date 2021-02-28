@@ -23,44 +23,43 @@ def theWeekndAlbums():
     return wkndAlbums
 
 
-
-
-def searchTest(artist):
+# Takes name of artist, returns artist ID
+def searchArtist(artist):
+    matchBool = False
     if len(sys.argv) > 1:
         search_str = sys.argv[1]
     else:
         search_str = artist
-
     result = spotify_.search(search_str)
-    # pprint.pprint(result)
 
-
-    topTracksList=[]
     tracks_ = result['tracks']
-    # pprint.pprint(tracks_)
     items_ = tracks_['items']
-    artists_ = items_[0]['artists'][0]['name']
 
+    artists_ = items_[0]['artists'][0]['name']
     artist_id = items_[0]['artists'][0]['id']
 
-    # check if the query for artist matches the artist returned from search results 
-    # if artists_.lower() == artist.lower():
-        # print(True)
-        # print(artist_id)
-    # print('{0} -- {1}'.format(artists_.lower(), artist.lower()))
-    topTracks_ = spotify_.artist_top_tracks(artist_id)
-    for track in topTracks_['tracks']:
-        topTracksList.append(track['name'])
-    # should loop through items_ to find artist matching query for id
+    for a in items_:
+        if artists_.lower() != artist.lower():
+            artists_ = items_[items_.index(a)]['artists'][0]['name']
+        else:
+            print('Match!')
+            matchBool = True
+            break
 
-    # items_ returns large dictionary, topTracksList returns list of top tracks via spotipy
-    return items_, topTracksList
+    if artists_.lower() != artist.lower():
+        matchBool = False
+        artists_ = 'Couldn\'t find anyone!'
+        artist_id = None
+    else:
+        matchBool = True
 
-# fetching artist name example
-# print()
-# print(searchTest('future')[0][0]['artists'][0]['name'])
+    return artists_, artist_id, matchBool
+
+def getArtistTopTracks(artist_id):
+    tracksList = []
+    topTracks = spotify_.artist_top_tracks(artist_id)
+    for track in topTracks['tracks']:
+        tracksList.append(track['name'])
+    return tracksList
 
 
-# example for track pulling 
-# for i in range(len(searchTest('young thug'))):
-#     print('\n{0}'.format((searchTest('young thug')[i]['name'])))

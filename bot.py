@@ -24,16 +24,26 @@ async def on_message(message):
         await message.channel.send(embed=embed_)
 
     if message.content.startswith('!searchtop') or message.content.startswith('!SearchTop') or message.content.startswith('!searchTop'):
-        artist = str(message.content)[10:]
-        if len(artist) != 0 and artist != ' ':    
-            embed_ = discord.Embed(title = 'Top track results for {0}'.format(artist))
-            print(len(dispotify.searchTest(artist)[1]))
-            for i in range(len(dispotify.searchTest(artist)[1])):
-                embed_.add_field(name='Track #{0}'.format(i+1), value=dispotify.searchTest(artist)[1][i])  
-            
-            await message.channel.send(embed=embed_)
+        artist = str(message.content)[11:]
+        if len(artist) != 0 and artist != ' ':
+            embed_ = None
+            artistName = dispotify.searchArtist(artist)[0]
+            artist_id = dispotify.searchArtist(artist)[1]
+            if (dispotify.searchArtist(artist)[2]):
+                embed_ = discord.Embed(title = 'Top track results for {0}'.format(artistName))
+                for track in dispotify.getArtistTopTracks(artist_id):
+                    print(track)
+                    embed_.add_field(name='Track #{0}'.format((dispotify.getArtistTopTracks(artist_id).index(track))+1), 
+                                    value=track)
+                await message.channel.send(embed=embed_)
+            else:
+                print(dispotify.searchArtist(artist))
+                print(artistName)
+                print(artist)
+                await message.channel.send('Couldn\'t find accurate results for {0}  :('.format(artist))
+
         else:
-            await message.channel.send('Name an artist after the command to retrieve top tracks! For example:\n ```!searchf Nirvana``` ')
+            await message.channel.send('Name an artist after the command to retrieve top tracks! For example:\n ```!searchtop Nirvana``` ')
 
 
 
