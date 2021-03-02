@@ -12,21 +12,19 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith('!hello'):
-        embed_ = discord.Embed(title = 'Here\'s some tracks for you {0.author.mention} ... '.format(message), color=0xA750DE)
-        embed_.add_field(name='Fleetwood Mac', value='Hypnotized', inline=False)
-        await message.channel.send(embed=embed_)
+    # Remove case sensitivity in commands
+    message.content=message.content.lower()
 
-    if message.content.startswith('!theWeeknd'):
-        embed_ = discord.Embed(title = 'Albums from The Weeknd', color=0xA750DE)
-        for albumName in dispotify.theWeekndAlbums():
-            # await message.channel.send(albumName)
-            embed_.add_field(name=dispotify.theWeekndAlbums().index(albumName)+1, value=albumName)
-        await message.channel.send(embed=embed_)
+    # if message.content.startswith('!hello'):
+    #     embed_ = discord.Embed(title = 'Here\'s some tracks for you {0.author.mention} ... '.format(message), color=0xA750DE)
+    #     embed_.add_field(name='Fleetwood Mac', value='Hypnotized', inline=False)
+    #     await message.channel.send(embed=embed_)
 
-    if message.content.startswith('!searchtop') or message.content.startswith('!SearchTop') or message.content.startswith('!searchTop'):
+    if message.content.startswith('!searchtop'):
         await botFunctions.topTracksMessage(message)
 
+    if message.content.startswith('!albums'):
+        await botFunctions.artistAlbumsMessage(message)
 
 @client.event
 async def on_ready():

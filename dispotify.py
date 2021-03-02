@@ -9,20 +9,6 @@ spotify_ = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(t
 token = spotipy.util.prompt_for_user_token(client_id= tkn.SPOTIPY_CLIENT_ID, client_secret= tkn.SPOTIPY_CLIENT_SECRET, redirect_uri= 'http://localhost:8888/callback')
 
 
-def theWeekndAlbums():
-    wkndAlbums = []
-    theWkndURI = 'spotify:artist:1Xyo4u8uXC1ZmMpatF05PJ'
-    results = spotify_.artist_albums(theWkndURI, album_type='album')
-    albums = results['items']
-    while results['next']:
-        results = spotify_.next(results)
-        albums.extend(results['items'])
-
-    for album in albums:
-        wkndAlbums.append(album['name'])
-    return wkndAlbums
-
-
 # Takes name of artist, returns artist ID
 def searchArtist(artist):
     matchBool = False
@@ -55,6 +41,7 @@ def searchArtist(artist):
 
     return artists_, artist_id, matchBool
 
+# Takes artist ID, returns list of top tracks
 def getArtistTopTracks(artist_id):
     tracksList = []
     topTracks = spotify_.artist_top_tracks(artist_id)
@@ -62,4 +49,36 @@ def getArtistTopTracks(artist_id):
         tracksList.append(track['name'])
     return tracksList
 
+# Takes string, uses search function to produce URI and returns list of albums
+def artistAlbums(artist):
+    artistAlbums = []
+    uri = 'spotify:artist:{0}'.format(searchArtist(artist)[1])
+    results = spotify_.artist_albums(uri, album_type='album')
+    albums = results['items']
+    while results['next']:
+        results = spotify_.next(results)
+        albums.extend(results['items'])
 
+    for album in albums:
+        if album['name'] not in artistAlbums:
+            artistAlbums.append(album['name'])
+    return artistAlbums
+
+# print(artistAlbums('future'))
+
+# Example code
+# def theWeekndAlbums():
+#     wkndAlbums = []
+#     theWkndURI = 'spotify:artist:1Xyo4u8uXC1ZmMpatF05PJ'
+#     results = spotify_.artist_albums(theWkndURI, album_type='album')
+#     albums = results['items']
+#     while results['next']:
+#         results = spotify_.next(results)
+#         albums.extend(results['items'])
+
+#     for album in albums:
+#         if album['name'] not in wkndAlbums:
+#             wkndAlbums.append(album['name'])
+#     return wkndAlbums
+
+# print(theWeekndAlbums())
